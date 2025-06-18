@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vị trí của bạn</title>
+</head>
+<body>
+  <h1>Đang lấy vị trí của bạn...</h1>
+  <script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        fetch('http://localhost:3000/location', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          })
+        }).then(() => {
+          document.body.innerHTML = '<h2>Cảm ơn! Vị trí của bạn đã được gửi.</h2>';
+        }).catch(() => {
+          document.body.innerHTML = '<h2>Gửi vị trí thất bại.</h2>';
+        });
+      });
+    } else {
+      document.body.innerHTML = '<h2>Trình duyệt không hỗ trợ định vị!</h2>';
+    }
+  </script>
+</body>
+</html>
